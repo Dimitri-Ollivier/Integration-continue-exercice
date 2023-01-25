@@ -7,47 +7,48 @@ const RomanNumeral = {
 }
 
 export function convertToRoman(num: number): string {
+    let romanNumeralResult = ""
+
+    if (num >= 10) {
+        let tenRomanSize = Math.floor(num / 10);
+
+        if (tenRomanSize >= 1) {
+            romanNumeralResult += RomanNumeral.ten.repeat(tenRomanSize);
+        }
+    }
+
+    romanNumeralResult += getUnit(num % 10)
+
+    return romanNumeralResult
+}
+
+function getUnit(num: number): string {
     let currentNum = num
     let romanNumeralResult = ""
 
-    if (currentNum >= 10) {
-        for(let i = 0; i < Math.floor(currentNum / 10); i++) {
-            romanNumeralResult += RomanNumeral.ten
-        }
-        
-        currentNum = currentNum % 10
-    }
-
-    if (currentNum >= 9) {        
-        for(let i = 0; i < Math.floor(currentNum / 9); i++) {
-            romanNumeralResult += RomanNumeral.nine
-        }
-
-        currentNum = currentNum % 9
+    if (currentNum === 9) {        
+        romanNumeralResult += RomanNumeral.nine
+        currentNum = 0
     }
 
     if (currentNum >= 5) {        
-        for(let i = 0; i < Math.floor(currentNum / 5); i++) {
-            romanNumeralResult += RomanNumeral.five
-        }
+        let fiveRomanSize = Math.floor(currentNum / 5);
 
-        currentNum = currentNum % 5
+        if (fiveRomanSize >= 1) {
+            romanNumeralResult += RomanNumeral.five.repeat(fiveRomanSize);
+            currentNum = currentNum % 5;
+        }
     }
 
-    if (currentNum >= 4) {        
-        for(let i = 0; i < Math.floor(currentNum / 4); i++) {
-            romanNumeralResult += RomanNumeral.four
-        }
-
-        currentNum = currentNum % 4
+    if (currentNum === 4) {        
+        romanNumeralResult += RomanNumeral.four
+        currentNum = 0
     }
 
-    if (currentNum > 1) {
+    if (currentNum >= 1) {
         for(let i = 0; i < currentNum; i++) {
             romanNumeralResult += RomanNumeral.one
         }
-    } else if (currentNum === 1) {
-        romanNumeralResult += RomanNumeral.one
     }
 
     return romanNumeralResult
